@@ -41,7 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CN_Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
+      <Project>{2b79d0ce-519d-486a-a48b-597932c197e8}</Project>
+      <Name>CapaDatos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CapaEntidad\CapaEntidad.csproj">
+      <Project>{cd6c3c04-b2f3-4073-a5e2-7a63b308b5dc}</Project>
+      <Name>CapaEntidad</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
