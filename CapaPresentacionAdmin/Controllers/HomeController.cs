@@ -20,6 +20,7 @@ namespace CapaPresentacionAdmin.Controllers
             return View();
         }
 
+        [HttpGet]
         public JsonResult ListarUsuarios()
         {
             List<Usuario> oLista = new CN_Usuarios().Listar();
