@@ -18,7 +18,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-success">Crear Nuevo</button>
+                <button type="button" class="btn btn-success" onclick="abrirModal()">Crear Nuevo</button>
             </div>
         </div>
         <hr />
@@ -38,20 +38,56 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body g-2">
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <label for="txtnombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="txtnombres">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="txtapellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="txtapellidos">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="txtcorreo" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="txtcorreo">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="cboactivo" class="form-label">Activo</label>
+                        <select id="cboactivo" class="form-select">
+                            <option value="1">Si</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script>
 
         var tabladata;
-
-        jQuery.ajax({
-            url: '@Url.Action("ListarUsuarios", "Home")',
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                console.log(data)
-            }
-        })
 
         tabladata = $("#tabla").DataTable({
             responsive: true,
@@ -74,13 +110,26 @@
                     }
                 },
                 {
-                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm"><i class="fas fa-pen"></i></button>' +
+                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-editar"><i class="fas fa-pen"></i></button>' +
                         '<button type="button" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash"></i></button>',
                     "orderable": false,
                     "searchable": false,
                     "width":"90px"
                 }
-            ]
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
+            }
         });
+
+        function abrirModal() {
+            $("#FormModal").modal("show");
+        }
+
+        $("#tabla tbody").on("click", '.btn-editar', function () {
+            var filaSeleccionada = $(this).closest("tr");
+            var data = tabladata.row(filaSeleccionada).data()
+        })
+
     </script>
 }
