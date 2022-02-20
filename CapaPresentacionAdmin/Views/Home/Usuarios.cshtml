@@ -178,6 +178,8 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
 
+                    $(".modal-body").LoadingOverlay("hide");
+
                     // Usuario Nuevo
                     if (Usuario.IdUsuario == 0) {
 
@@ -205,13 +207,20 @@
                     }
                 },
                 error: function (error) {
-                    console.log(error)
+
+                    $(".modal-body").LoadingOverlay("hide");
+                    $("#mensajeError").text(error.responseText);
+                    $("#mensajeError").show();
                 },
                 beforeSend: function () {
 
+                    $(".modal-body").LoadingOverlay("show", {
+                        imageResizeFactor: 2,
+                        text: "Cargando...",
+                        size: 14
+                    });
                 }
             });
         }
-
     </script>
 }
