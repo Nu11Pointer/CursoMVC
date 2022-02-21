@@ -142,7 +142,7 @@ namespace CapaDatos
             {
                 using (var oconexion = new SqlConnection(Conexion.cn))
                 {
-                    var cmd = new SqlCommand("dele top (1) from usuario where IdUsuario = @id", oconexion);
+                    var cmd = new SqlCommand("delete top (1) from usuario where IdUsuario = @id", oconexion);
                     cmd.Parameters.AddWithValue("@id", id);
                     oconexion.Open();
                     resultado = cmd.ExecuteNonQuery() > 0;

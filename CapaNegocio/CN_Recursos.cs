@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace CapaNegocio
@@ -21,6 +24,45 @@ namespace CapaNegocio
             }
 
             return Sb.ToString();
+        }
+
+        public static string GenerarClave()
+        {
+            string clave = Guid.NewGuid().ToString("N").Substring(0, 6);
+            return clave;
+        }
+
+        public static bool EnviarCorreo(string correo, string asunto, string mensaje)
+        {
+            bool resultado = false;
+
+            try
+            {
+                var mail = new MailMessage(from: "stevenwerr@gmail.com", to: correo)
+                {
+                    Subject = asunto,
+                    Body = mensaje,
+                    IsBodyHtml = true
+                };
+
+                var smtp = new SmtpClient()
+                {
+                    Credentials = new NetworkCredential(userName: "stevenwerr@gmail.com", password: "woibjdshycukncma"),
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true
+                };
+
+                smtp.Send(mail);
+                resultado = true;
+
+            }
+            catch
+            {
+                resultado = false;
+            }
+
+            return resultado;
         }
     }
 }
