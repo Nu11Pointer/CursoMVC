@@ -38,7 +38,7 @@ namespace CapaNegocio
 
             try
             {
-                var mail = new MailMessage(from: "stevenwerr@gmail.com", to: correo)
+                var mail = new MailMessage(from: Environment.GetEnvironmentVariable("APPLICATION USERNAME CMVC"), to: correo)
                 {
                     Subject = asunto,
                     Body = mensaje,
@@ -47,7 +47,7 @@ namespace CapaNegocio
 
                 var smtp = new SmtpClient()
                 {
-                    Credentials = new NetworkCredential(userName: "stevenwerr@gmail.com", password: "omdayufwrjsyinbm"),
+                    Credentials = new NetworkCredential(userName: Environment.GetEnvironmentVariable("APPLICATION USERNAME CMVC"), password: Environment.GetEnvironmentVariable("APPLICATION PASSWORD CMVC")),
                     Host = "smtp.gmail.com",
                     Port = 587,
                     EnableSsl = true
