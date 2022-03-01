@@ -1,5 +1,9 @@
 ﻿@{
+
+
     ViewBag.Title = "Producto";
+
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -57,7 +61,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-backdrop="static">
+     data-bs-backdrop="static">
 
     <div class="modal-dialog modal-xl">
 
@@ -70,7 +74,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
 
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                        aria-label="Close"></button>
 
             </div>
 
@@ -86,12 +90,12 @@
                     <div class="col-sm-3">
                         <div class="mb-2">
                             <img id="img_producto" height="197" width="200"
-                                class="border rounded mx-auto d-block img-fluid" />
+                                 class="border rounded mx-auto d-block img-fluid" />
                         </div>
 
                         <div class="mb-2">
                             <input class="form-control" type="file" id="fileProducto"
-                                accept="image/png, image/jpg, image/jpeg" onchange="montrarImagen(this)" />
+                                   accept="image/png, image/jpg, image/jpeg" onchange="montrarImagen(this)" />
                         </div>
                     </div>
 
@@ -105,7 +109,7 @@
                         <div class="mb-3">
                             <label class="form-label">Descripcion</label>
                             <textarea type="text" class="form-control" id="txtdescripcion" name="descripcion"
-                                style="height:125px;resize:none" autocomplete="off"></textarea>
+                                      style="height:125px;resize:none" autocomplete="off"></textarea>
                         </div>
                     </div>
 
@@ -150,7 +154,6 @@
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert">
-                            A simple danger alert—check it out!
                         </div>
                     </div>
                 </div>
@@ -170,7 +173,7 @@
 </div>
 
 @section scripts{
-<script>
+    <script>
 
     var tabladata;
     var filaSeleccionada;
@@ -318,6 +321,32 @@
             $("#txtprecio").val(json.Precio);
             $("#txtstock").val(json.Stock);
             $("#cboactivo").val(json.Activo ? 1 : 0);
+
+            jQuery.ajax({
+                url: '@Url.Action("ImagenProducto", "Mantenedor")',
+                type: "POST",
+                data: JSON.stringify({ id: json.IdProducto }),
+                datatype: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $("#img_producto").LoadingOverlay("hide");
+                    if (data.conversion) {
+                        $("#img_producto").attr({ "src": "data:image/" + data.extension + ";base64," + data.textoBase64})
+                    }
+                },
+                error: function (error) {
+
+                    $("#img_producto").LoadingOverlay("hide");
+                    $("#mensajeError").show();
+                    $("#mensajeError").text("Error al mostrar imagen");
+                },
+                beforeSend: function () {
+
+                    $("#img_producto").LoadingOverlay("show");
+                }
+
+            })
         }
 
         $("#FormModal").modal("show");
@@ -332,12 +361,12 @@
 
     $("#tabla tbody").on("click", '.btn-eliminar', function () {
 
-        var marcaseleccionada = $(this).closest("tr");
-        var data = tabladata.row(marcaseleccionada).data();
+        var productoSeleccionado = $(this).closest("tr");
+        var data = tabladata.row(productoSeleccionado).data();
 
         swal({
             title: "¿Está seguro?",
-            text: "¿Desea eliminar la marca?",
+            text: "¿Desea eliminar el producto?",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
@@ -348,16 +377,16 @@
             function () {
 
                 jQuery.ajax({
-                    url: '@Url.Action("EliminarMarca", "Mantenedor")',
+                    url: '@Url.Action("EliminarProducto", "Mantenedor")',
                     type: "POST",
-                    data: JSON.stringify({ id: data.IdMarca }),
+                    data: JSON.stringify({ id: data.IdProducto }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
 
                         if (data.resultado) {
 
-                            tabladata.row(marcaseleccionada).remove().draw();
+                            tabladata.row(productoSeleccionado).remove().draw();
                         }
                         else {
 
@@ -456,5 +485,5 @@
         });
     }
 
-</script>
+    </script>
 }
