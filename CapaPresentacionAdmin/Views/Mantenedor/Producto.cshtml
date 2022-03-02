@@ -355,7 +355,11 @@
     $("#tabla tbody").on("click", '.btn-editar', function () {
 
         filaSeleccionada = $(this).closest("tr");
+        if ($(filaSeleccionada).hasClass('child')) {
+            filaSeleccionada = $(filaSeleccionada).prev();
+        }
         var data = tabladata.row(filaSeleccionada).data();
+        console.log(data);
         abrirModal(data)
     })
 
