@@ -1,10 +1,6 @@
 ﻿using CapaDatos;
 using CapaEntidad;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
@@ -15,6 +11,11 @@ namespace CapaNegocio
         public DashBoard VerDashBoard()
         {
             return objCapaDato.VerDashBoard();
+        }
+
+        public List<Reporte> Ventas(string fechainicio, string fechafin, string idtransaccion)
+        {
+            return objCapaDato.Ventas(fechainicio, fechafin, idtransaccion);
         }
     }
 }

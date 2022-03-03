@@ -1,9 +1,6 @@
 ﻿using CapaEntidad;
 using CapaNegocio;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CapaPresentacionAdmin.Controllers
@@ -62,6 +59,14 @@ namespace CapaPresentacionAdmin.Controllers
             DashBoard objeto = new CN_Reporte().VerDashBoard();
 
             return Json(new { resultado = objeto }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListaReporte(string fechainicio, string fechafin, string idtransaccion)
+        {
+            List<Reporte> olista = new CN_Reporte().Ventas(fechainicio, fechafin, idtransaccion);
+
+            return Json(new { resultado = olista }, JsonRequestBehavior.AllowGet);
         }
     }
 }
